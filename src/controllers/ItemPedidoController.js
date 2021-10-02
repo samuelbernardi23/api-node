@@ -37,7 +37,10 @@ module.exports = {
     const pedido = await Pedido.findByPk(pedido_id);
 
     if (pedido) {
-      const item = await ItemPedido.findAll({ where: { pedido_id } });
+      const item = await ItemPedido.findAll({
+        where: { pedido_id },
+        include: { model: Produto, as: "produto" },
+      });
       return res.json(item);
     }
     return res.json({
