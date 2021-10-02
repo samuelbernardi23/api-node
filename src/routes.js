@@ -20,7 +20,7 @@ routes.delete("/pedidos", PedidoController.delete);
 
 routes.get("/itempedidos/:pedido_id", ItemPedidoController.find)
 routes.post("/pedidos/:pedido_id/item_pedido", ItemPedidoController.store)
-// routes.delete("/pedidos", PedidoController.delete);
+routes.delete("/itempedidos/:item_pedido_id", ItemPedidoController.delete);
 
 
 

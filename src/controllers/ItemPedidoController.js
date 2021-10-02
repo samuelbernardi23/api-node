@@ -39,21 +39,21 @@ module.exports = {
     if (pedido) {
       const item = await ItemPedido.findAll({ where: { pedido_id } });
       return res.json(item);
-    } else {
-      res.json({
-        message: "Não foi possível encontrar items do pedido informado.",
-      });
     }
+    return res.json({
+      message: "Não foi possível encontrar items do pedido informado.",
+    });
   },
   async delete(req, res) {
-    const { id } = req.body;
+    const { item_pedido_id } = req.params;
 
-    try {
-      const pedido = await Pedido.findByPk(id);
-      pedido.destroy();
-      return res.json(pedido);
-    } catch {
-      res.json({ message: "Não foi possível deletar o pedido." });
+    const item_pedido = await ItemPedido.findByPk(item_pedido_id);
+    if (item_pedido) {
+      item_pedido.destroy();
+      return res.json(item_pedido);
     }
+    return res.json({
+      message: `Item pedido (${item_pedido_id}) não encontrado.`,
+    });
   },
 };
