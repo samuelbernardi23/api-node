@@ -8,6 +8,7 @@ const routes = express.Router();
 
 routes.get("/clientes", ClienteController.find);
 routes.post("/clientes", ClienteController.store);
+routes.patch("/clientes", ClienteController.update);
 routes.delete("/clientes/:cliente_id", ClienteController.delete);
 
 routes.get("/produtos", ProdutoController.find);
