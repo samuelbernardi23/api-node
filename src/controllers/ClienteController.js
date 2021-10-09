@@ -24,14 +24,13 @@ module.exports = {
     }
   },
   async delete(req, res) {
-    const { id } = req.body;
+    const { cliente_id } = req.params;
+      const cliente = await Cliente.findByPk(cliente_id);
+      if(cliente){
+        cliente.destroy();
+        return res.json(cliente);
+      }
 
-    try{
-      const cliente = await Cliente.destroy(id);
-      return res.json(cliente);
-
-    }catch{
       res.json({message:"Não foi possível deletar o registro."})
-    }
   }
 };
