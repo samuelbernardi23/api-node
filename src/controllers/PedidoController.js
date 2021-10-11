@@ -53,7 +53,6 @@ module.exports = {
         .status(404)
         .json({ error: `Houve um problema ao cadastrar o pedido` });
     }
-
   },
   async find(req, res) {
     try {
@@ -64,10 +63,10 @@ module.exports = {
     }
   },
   async delete(req, res) {
-    const { id } = req.body;
+    const { pedido_id } = req.params;
 
     try {
-      const pedido = await Pedido.findByPk(id);
+      const pedido = await Pedido.findByPk(pedido_id);
       pedido.destroy();
       return res.json(pedido);
     } catch {

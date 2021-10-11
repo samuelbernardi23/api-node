@@ -18,7 +18,7 @@ routes.delete("/produtos/:produto_id", ProdutoController.delete);
 
 routes.get("/pedidos", PedidoController.find)
 routes.post("/pedidos", PedidoController.store)
-routes.delete("/pedidos", PedidoController.delete);
+routes.delete("/pedidos/:pedido_id", PedidoController.delete);
 
 routes.get("/itempedidos/:pedido_id", ItemPedidoController.find)
 routes.post("/itempedidos/:pedido_id", ItemPedidoController.store)
