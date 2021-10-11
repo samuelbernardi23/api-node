@@ -6,3 +6,6 @@ A Aplicação foi desenvolvida com base em ORM, neste caso foi utilizado Sequeli
 
 ### Start
 Para inicializar o projeto, basta apenas executar ``npm install`` e após a instalação dos pacotes ``npm run start | ng serve`` no diretório raiz.
+
+### json para Insomnia com as chamadas a API
+https://drive.google.com/file/d/1NZWUrt2jFDDQSbyFAS0aASoMBy8FnSR7/view?usp=sharing
