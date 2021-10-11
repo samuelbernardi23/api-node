@@ -4,54 +4,46 @@ module.exports = {
   async store(req, res) {
     const { nome, preco_unitario, multiplo } = req.body;
 
-    try{
+    try {
       const produto = await Produto.create({ nome, preco_unitario, multiplo });
       return res.json(produto);
-
-    }catch{
-      res.json({message:"Não foi possível inserir o produto."})
+    } catch (error) {
+      res.json(error);
     }
-
   },
   async find(req, res) {
-    try{
+    try {
       const produto = await Produto.findAll();
-      let result = produto.map(i=> {
-        i.preco_unitario = parseInt(i.preco_unitario)
-        console.log(i);
-        return i
-      })
-      return res.json(result);
-
-    }catch{
-      res.json({message:"Não foi possível encontrar produtos."})
+      
+      return res.json(produto);
+    } catch (error) {
+      res.json(error);
     }
   },
 
   async update(req, res) {
     const { id, nome, preco_unitario, multiplo } = req.body;
     console.log(req.body);
-    
+
     try {
       const produto = await Produto.findByPk(id);
-      produto.update({nome, preco_unitario, multiplo});
+      produto.update({ nome, preco_unitario, multiplo });
 
       return res.json(produto);
-    } catch {
-      res.json({ message: "Não foi possível atualizar o registro." });
+    } catch (error) {
+      res.json(error);
     }
   },
 
   async delete(req, res) {
     const { produto_id } = req.params;
 
-    try{
+    try {
       const produto = await Produto.findByPk(produto_id);
       produto.destroy();
       return res.json(produto);
-
-    }catch{
-      res.json({message:"Não foi possível deletar o produto."})
+    } catch (error) {
+      res.json(error);
     }
-  }
+  },
 };
