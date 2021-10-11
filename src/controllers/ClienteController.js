@@ -6,43 +6,42 @@ module.exports = {
 
     try {
       const cliente = await Cliente.create({ nome });
-      console.log(cliente);
       return res.json(cliente);
-    } catch {
-      res.json({ message: "Não foi possível inserir registro." });
+    } catch (error) {
+      res.json(error);
     }
   },
   async find(req, res) {
     try {
       const cliente = await Cliente.findAll();
       return res.json(cliente);
-    } catch {
-      res.json({ message: "Não foi possível encontrar registro." });
+    } catch (error) {
+      res.json(error);
     }
   },
 
   async update(req, res) {
     const { id, nome } = req.body;
     console.log(req.body);
-    
+
     try {
       const cliente = await Cliente.findByPk(id);
-      cliente.update({nome});
+      cliente.update({ nome });
 
       return res.json(cliente);
-    } catch {
-      res.json({ message: "Não foi possível atualizar o registro." });
+    } catch (error) {
+      res.json(error);
     }
   },
 
   async delete(req, res) {
     const { cliente_id } = req.params;
-    const cliente = await Cliente.findByPk(cliente_id);
-    if (cliente) {
+    try {
+      const cliente = await Cliente.findByPk(cliente_id);
       cliente.destroy();
       return res.json(cliente);
+    } catch (error) {
+      res.json(error);
     }
-
-    res.json({ message: "Não foi possível deletar o registro." });
   },
 };
