@@ -23,7 +23,6 @@ module.exports = {
 
   async update(req, res) {
     const { id, nome, preco_unitario, multiplo } = req.body;
-    console.log(req.body);
 
     try {
       const produto = await Produto.findByPk(id);

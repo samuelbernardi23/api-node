@@ -22,7 +22,6 @@ module.exports = {
 
   async update(req, res) {
     const { id, nome } = req.body;
-    console.log(req.body);
 
     try {
       const cliente = await Cliente.findByPk(id);
