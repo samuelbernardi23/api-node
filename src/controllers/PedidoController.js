@@ -95,13 +95,11 @@ module.exports = {
           .catch((err) => {
             res.json(err);
           });
-      } catch (error) {
-        return res.json({
-          message: "Não foi possivel atualizar os itens do pedido.",
-        });
-      }
+        } catch (error) {
+          res.json(error);
+        }
     } catch (error) {
-      return res.json({ message: "Não foi possível atualizar o pedido." });
+      res.json(error);
     }
   },
   async delete(req, res) {
@@ -114,7 +112,7 @@ module.exports = {
         message: "Pedido excluído com sucesso.",
       });
     } catch (error) {
-      return res.json({ message: "Falha ao excluir o item do pedido." });
+      res.json(error);
     }
   },
 };
