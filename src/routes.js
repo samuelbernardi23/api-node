@@ -2,6 +2,7 @@ const express = require("express");
 const ClienteController = require('./controllers/ClienteController');
 const ProdutoController = require('./controllers/ProdutoController');
 const PedidoController = require('./controllers/PedidoController');
+const ItemPedidoController = require('./controllers/ItemPedidoController');
 
 const routes = express.Router();
 
@@ -19,5 +20,7 @@ routes.get("/pedidos", PedidoController.find)
 routes.post("/pedidos", PedidoController.store)
 routes.patch("/pedidos", PedidoController.update)
 routes.delete("/pedidos/:pedido_id", PedidoController.delete);
+
+routes.get("/itempedidos/:pedido_id", ItemPedidoController.find)
 
 module.exports = routes;
