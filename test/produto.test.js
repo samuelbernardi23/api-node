@@ -6,7 +6,7 @@ var expect = chai.expect;
 
 const url = BASE_URL + "/produtos";
 
-describe("produto", function () {
+describe("Produto", function () {
   let idProduto; //Id que será inserido após criar um produto
   let produto = {// Modelo que será utilizado ao inserir um produto
     nome: "Novo produto",
@@ -32,7 +32,7 @@ describe("produto", function () {
 
   });
 
-  it("deve retornar uma lista de produtos", function (done) {
+  it("deve retornar uma lista de produtos", function async(done) {
     request.get(url, (error, response, body) => {
       body = JSON.parse(body);
       const produto = body[0];
@@ -48,7 +48,7 @@ describe("produto", function () {
     });
   });
 
-  it("deve alterar um produto", function (done) {
+  it("deve alterar um produto", function async(done) {
     request.patch({
       url, json: true, body: {
         id: idProduto,
@@ -67,7 +67,7 @@ describe("produto", function () {
     });
   });
 
-  it("deve exlcuir o produto inserido", function (done) {
+  it("deve exlcuir o produto inserido", function async(done) {
     request.delete(`${url}/${idProduto}`, {}, (error, response, body) => {
       body = JSON.parse(body);
 
@@ -77,13 +77,11 @@ describe("produto", function () {
     });
   });
 
-  it("deve não encontrar o produto anteriormente removido", function (done) {
-    request.get(url, {}, (error, response, body) => {
+  it("deve não encontrar o produto anteriormente removido", function async(done) {
+    request.get(`${url}?id=${idProduto}`, {}, (error, response, body) => {
       body = JSON.parse(body);
 
-      body.forEach(produto => {
-        expect(produto.id).to.be.not.equal(idProduto);
-      });
+      expect(body).to.be.null;
 
       done();
     });

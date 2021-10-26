@@ -12,9 +12,16 @@ module.exports = {
     }
   },
   async find(req, res) {
+    const { id } = req.query;
+
     try {
+      if (id) {
+        const produto = await Produto.findByPk(id);
+        return res.json(produto);
+
+      }
       const produto = await Produto.findAll();
-      
+
       return res.json(produto);
     } catch (error) {
       res.json(error);
