@@ -27,7 +27,7 @@ describe("Cliente", function () {
 
   });
 
-  it("deve retornar uma lista de clientes", function (done) {
+  it("deve retornar uma lista de clientes", function async(done) {
     request.get(url, (error, response, body) => {
       body = JSON.parse(body);
       const cliente = body[0];
@@ -41,7 +41,7 @@ describe("Cliente", function () {
     });
   });
 
-  it("deve alterar um cliente", function (done) {
+  it("deve alterar um cliente", function async(done) {
     request.patch({ url, json: true, body: { id: idCliente, nome: "Novo cliente alterado" } }, (error, response, body) => {
       expect(body.id).to.be.equal(idCliente);
       expect(body.nome).to.be.not.equal(cliente.nome);
@@ -50,7 +50,7 @@ describe("Cliente", function () {
     });
   });
 
-  it("deve exlcuir o cliente inserido", function (done) {
+  it("deve exlcuir o cliente inserido", function async(done) {
     request.delete(`${url}/${idCliente}`, {}, (error, response, body) => {
       body = JSON.parse(body);
 
@@ -60,13 +60,11 @@ describe("Cliente", function () {
     });
   });
 
-  it("deve não encontrar o cliente anteriormente removido", function (done) {
-    request.get(url, {}, (error, response, body) => {
+  it("deve não encontrar o cliente anteriormente removido", function async(done) {
+    request.get(`${url}?id=${idCliente}`, {}, (error, response, body) => {
       body = JSON.parse(body);
-
-      body.forEach(cliente => {
-        expect(cliente.id).to.be.not.equal(idCliente);
-      });
+      
+      expect(body).to.be.null;
 
       done();
     });

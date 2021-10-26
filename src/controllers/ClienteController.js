@@ -12,9 +12,17 @@ module.exports = {
     }
   },
   async find(req, res) {
+    const { id } = req.query;
+
     try {
-      const cliente = await Cliente.findAll();
-      return res.json(cliente);
+      if (id) {
+        const cliente = await Cliente.findByPk(id);
+        return res.json(cliente);
+
+      } else {
+        const cliente = await Cliente.findAll();
+        return res.json(cliente);
+      }
     } catch (error) {
       res.json(error);
     }
