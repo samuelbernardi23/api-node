@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js",
+    "start": "src/server.js",
     "test": "mocha test/pedido.test.js --timeout 100000"
   },
   "dependencies": {
@@ -16,6 +17,10 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
+  },
+  "engines": {
+    "node": "14.15.4",
+    "npm": "6.14.10"
   },
   "devDependencies": {
     "chai": "^4.3.4",
