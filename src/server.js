@@ -2,7 +2,8 @@ const express = require('express');
 const routes = require('./routes');
 const cors = require('cors');
 
-require('./database/index');
+require(__dirname + '/database/index');
+
 const PORT = process.env || 3333;
 const app = express();
 
