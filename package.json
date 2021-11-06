@@ -5,9 +5,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "test": "mocha"
+    "test": "mocha test/pedido.test.js --timeout 100000"
   },
   "dependencies": {
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql2": "^2.3.0",
