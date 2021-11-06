@@ -9,14 +9,14 @@ module.exports = {
 
     if (pedido_id) {
       try {
-        const pedidos = await Pedido.findByPk(pedido_id, { include: { model: Cliente, as: "cliente" } })
+        const pedidos = await Pedido.findByPk(pedido_id, { include: { model: Cliente, as: "Cliente" } })
         return res.json(pedidos);
       } catch {
         res.json({ message: "Pedido não encontrado." });
       }
     } else {
       try {
-        const pedidos = await Pedido.findAll({ include: { model: Cliente, as: "cliente" } });
+        const pedidos = await Pedido.findAll({ include: { model: Cliente, as: "Cliente" } });
         return res.json(pedidos);
       } catch {
         res.json({ message: "Não foi possível encontrar pedidos." });
