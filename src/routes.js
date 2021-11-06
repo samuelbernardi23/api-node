@@ -16,7 +16,7 @@ routes.post("/produtos", ProdutoController.store);
 routes.patch("/produtos", ProdutoController.update);
 routes.delete("/produtos/:produto_id", ProdutoController.delete);
 
-routes.get("/pedidos", PedidoController.find)
+routes.get("/pedidos/:pedido_id?", PedidoController.find)
 routes.post("/pedidos", PedidoController.store)
 routes.patch("/pedidos", PedidoController.update)
 routes.delete("/pedidos/:pedido_id", PedidoController.delete);

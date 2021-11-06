@@ -5,11 +5,22 @@ const ItemPedido = require("../model/ItemPedido");
 
 module.exports = {
   async find(req, res) {
-    try {
-      const pedidos = await Pedido.findAll();
-      return res.json(pedidos);
-    } catch {
-      res.json({ message: "Não foi possível encontrar pedidos." });
+    const { pedido_id } = req.params;
+
+    if (pedido_id) {
+      try {
+        const pedidos = await Pedido.findByPk(pedido_id, { include: { model: Cliente, as: "cliente" } })
+        return res.json(pedidos);
+      } catch {
+        res.json({ message: "Pedido não encontrado." });
+      }
+    } else {
+      try {
+        const pedidos = await Pedido.findAll({ include: { model: Cliente, as: "cliente" } });
+        return res.json(pedidos);
+      } catch {
+        res.json({ message: "Não foi possível encontrar pedidos." });
+      }
     }
   },
   async store(req, res) {
@@ -43,6 +54,7 @@ module.exports = {
         await ItemPedido.bulkCreate(items)
           .then((r) => {
             return res.json({
+              ...pedido.dataValues,
               message: "Pedido inserido com sucesso.",
             });
           })
@@ -68,6 +80,10 @@ module.exports = {
       return res.json({ message: "Pedido id não informado" });
     }
 
+    const old = await ItemPedido.findAll({
+      where: { pedido_id },
+    });
+
     const valor_total = items
       .map((i) => {
         Object.assign(i, {
@@ -85,19 +101,24 @@ module.exports = {
       const pedido = await Pedido.findByPk(pedido_id);
       await pedido.update({ valor_total: valor_total });
 
+
+
       try {
         await ItemPedido.bulkCreate(items)
           .then((r) => {
             return res.json({
+              id: pedido_id,
               message: "Pedido atualizado com sucesso.",
+              old: old,
+              new: r
             });
           })
           .catch((err) => {
             res.json(err);
           });
-        } catch (error) {
-          res.json(error);
-        }
+      } catch (error) {
+        res.json(error);
+      }
     } catch (error) {
       res.json(error);
     }
