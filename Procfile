@@ -1,1 +1,1 @@
-web: yarn start
+web: npm config set user 0 && npm config set unsafe-perm true && yarn start 
