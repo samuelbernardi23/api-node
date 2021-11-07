@@ -4,7 +4,7 @@ const cors = require('cors');
 
 require(__dirname + '/database/index');
 
-const PORT = process.env || 3333;
+const PORT = process.env.PORT || 3333;
 const app = express();
 
 app.use(cors());
