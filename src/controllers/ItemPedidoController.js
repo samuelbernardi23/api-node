@@ -12,6 +12,11 @@ module.exports = {
         where: { pedido_id },	
         include: { model: Produto, as: "produto" },	
       });	
+
+      await item.forEach(i =>{
+        Object.assign(i.dataValues, { multiplo: i.dataValues.produto.multiplo });
+      });
+
       return res.json(item);	
     }	
     return res.json({	
