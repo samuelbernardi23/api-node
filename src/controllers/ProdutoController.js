@@ -49,7 +49,6 @@ module.exports = {
     try {
       const find = await ItemPedido.findAll({ where: { produto_id } });
       if (find.length > 0) {
-        console.log(find.length);
         res.status(400)
         return res.json({ message: "Produto está sendo utilizado em um ou mais pedidos e não pode ser excluído." })
       }
