@@ -48,7 +48,6 @@ module.exports = {
     const find = await Pedido.findAll({ where: { cliente_id } });
 
     if (find.length > 0) {
-      console.log(find);
       res.status(400)
       return res.json({ message: "Cliente está sendo utilizado em um ou mais pedidos e não pode ser excluído." })
     }
