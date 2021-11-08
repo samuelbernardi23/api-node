@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "test": "mocha test/pedido.test.js --timeout 100000"
+    "test": "mocha --timeout 100000"
   },
   "dependencies": {
     "chai-http": "^4.3.0",

@@ -1,70 +1,88 @@
 
-const BASE_URL = require("./environment").url;
-var request = require("request");
-var chai = require("chai");
-var expect = chai.expect;
+const common = require('./core/common')
+const BASE_URL = common.BASE_URL;
+const chai = common.chai;
+const expect = common.expect;
 
 const url = BASE_URL + "/clientes";
 
-describe("Cliente", function() {
+describe("Cliente", function () {
   let idCliente; //Id que será inserido após criar um cliente
-  let cliente = {
+  let clienteModel = {
     nome: "Novo cliente" // Nome que será inserido ao criar
   };
 
-  it('deve criar um cl iente corretamente', function(done) {
+  it('Deve criar um cliente corretamente', function (done) {
+    chai.request(BASE_URL)
+      .post('/clientes')
+      .send(clienteModel)
+      .end((err, res) => {
+        const body = res.body
+        expect(body).to.have.property('id');
+        expect(body).to.have.property('nome');
+        idCliente = body.id;
+        done();
 
-    request.post({ url, json: true, body: cliente }, (error, response, body) => {
-      idCliente = body.id;
-      expect(body).to.have.property('id');
-      expect(body).to.have.property('nome');
+      });
+  });
 
-      done();
-    });
+  it("Deve retornar uma lista de clientes", function (done) {
+    chai.request(BASE_URL)
+      .get('/clientes')
+      .end((err, res) => {
+        const body = res.body
+        const cliente = body[0];
 
+        expect(body).to.be.not.empty;
+        expect(cliente).to.have.property('id');
+        expect(cliente).to.have.property('nome');
+        idCliente = body.id;
+
+        done();
+      });
 
   });
 
-  it("deve retornar uma lista de clientes", function(done) {
-    request.get(url, (error, response, body) => {
-      body = JSON.parse(body);
-      const cliente = body[0];
+  it("Deve alterar um cliente", function (done) {
+    chai.request(BASE_URL)
+      .patch('/clientes')
+      .send({
+        id: idCliente,
+        nome: "Novo cliente alterado"
+      })
+      .end((err, res) => {
+        const body = res.body
 
-      expect(body).to.be.not.empty;
+        expect(body.id).to.be.equal(idCliente);
+        expect(body.nome).to.be.not.equal(clienteModel.nome);
+        idCliente = body.id;
 
-      expect(cliente).to.have.property('id');
-      expect(cliente).to.have.property('nome');
-
-      done();
-    });
+        done();
+      });
   });
 
-  it("deve alterar um cliente", function(done) {
-    request.patch({ url, json: true, body: { id: idCliente, nome: "Novo cliente alterado" } }, (error, response, body) => {
-      expect(body.id).to.be.equal(idCliente);
-      expect(body.nome).to.be.not.equal(cliente.nome);
+  it("Deve exlcuir o cliente inserido", function (done) {
+    chai.request(BASE_URL)
+      .delete(`/clientes/${idCliente}`)
+      .end((err, res) => {
+        const body = res.body;
 
-      done();
-    });
+        expect(body.id).to.be.equal(idCliente);
+        done();
+      });
   });
 
-  it("deve exlcuir o cliente inserido", function(done) {
-    request.delete(`${url}/${idCliente}`, {}, (error, response, body) => {
-      body = JSON.parse(body);
 
-      expect(body.id).to.be.equal(idCliente);
 
-      done();
-    });
-  });
+  it("Deve não encontrar o cliente anteriormente removido", function (done) {
+    chai.request(BASE_URL)
+      .get(`/clientes?id=${idCliente}`)
+      .end((err, res) => {
+        const body = res.body;
 
-  it("deve não encontrar o cliente anteriormente removido", function(done) {
-    request.get(`${url}?id=${idCliente}`, {}, (error, response, body) => {
-      body = JSON.parse(body);
-      
-      expect(body).to.be.null;
+        expect(body).to.be.equal(null);
 
-      done();
-    });
+        done();
+      });
   });
 });
