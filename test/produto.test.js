@@ -3,8 +3,9 @@ const common = require('./core/common')
 const BASE_URL = common.BASE_URL;
 const chai = common.chai;
 const expect = common.expect;
+const wait = common.wait;
 
-describe("Produto", function () {
+describe("Produto", () => {
   let idProduto; //Id que será inserido após criar um produto
   let produtoModel = {// Modelo que será utilizado ao inserir um produto
     nome: "Novo produto",
@@ -12,7 +13,7 @@ describe("Produto", function () {
     multiplo: 3
   };
 
-  it('Deve criar um ciente corretamente', function async(done) {
+  it('Deve inserir um produto corretamente', (done) => {
     chai.request(BASE_URL)
       .post('/produtos')
       .send(produtoModel)
@@ -25,13 +26,12 @@ describe("Produto", function () {
         expect(body).to.have.property('multiplo');
         idProduto = body.id;
 
-        done();
-
+        wait(done, 1000);
       });
 
   });
 
-  it("Deve retornar uma lista de produtos", function async(done) {
+  it("Deve retornar uma lista de produtos", (done) => {
     chai.request(BASE_URL)
       .get('/produtos')
       .end((err, res) => {
@@ -45,11 +45,11 @@ describe("Produto", function () {
         expect(produto).to.have.property('preco_unitario');
         expect(produto).to.have.property('multiplo');
 
-        done();
+        wait(done, 1000);
       });
   });
 
-  it("Deve alterar um produto", function async(done) {
+  it("Deve alterar um produto", (done) => {
     chai.request(BASE_URL)
       .patch('/produtos')
       .send({
@@ -62,27 +62,26 @@ describe("Produto", function () {
         const body = res.body;
 
         expect(body.id).to.be.equal(idProduto);
-
         expect(body.nome).to.be.not.equal(produtoModel.nome);
         expect(body.preco_unitario).to.be.not.equal(produtoModel.preco_unitario);
         expect(body.multiplo).to.be.not.equal(produtoModel.multiplo);
 
-        done();
+        wait(done, 1000);
       });
   });
 
-  it("Deve exlcuir o produto inserido", function async(done) {
+  it("Deve exlcuir o produto anteriormente inserido", (done) => {
     chai.request(BASE_URL)
       .delete(`/produtos/${idProduto}`)
       .end((err, res) => {
         const body = res.body;
 
         expect(body.id).to.be.equal(idProduto);
-        done();
+        wait(done, 1000);
       });
   });
 
-  it("Deve não encontrar o produto anteriormente removido", function async(done) {
+  it("Deve não encontrar o produto anteriormente removido", (done) => {
     chai.request(BASE_URL)
       .get(`/produtos?id=${idProduto}`)
       .end((err, res) => {
@@ -90,7 +89,7 @@ describe("Produto", function () {
 
         expect(body).to.be.equal(null);
 
-        done();
+        wait(done, 1000);
       });
   });
 });

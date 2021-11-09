@@ -3,8 +3,9 @@ const common = require('./core/common')
 const BASE_URL = common.BASE_URL;
 const chai = common.chai;
 const expect = common.expect;
+const wait = common.wait;
 
-describe("pedido", () => {
+describe("Pedido", () => {
    let idCliente;
    let idProduto;
    let idPedido;
@@ -63,7 +64,7 @@ describe("pedido", () => {
                         expect(body).to.have.property('message');
                         expect(body.message).to.be.equal('Pedido inserido com sucesso.');
                         idPedido = body.id;
-                        done();
+                        wait(done, 1000);
                      });
                });
          });
@@ -76,7 +77,7 @@ describe("pedido", () => {
             const body = res.body;
 
             expect(body.id).to.be.equal(idPedido);
-            done();
+            wait(done, 1000);
          });
    });
 
@@ -97,11 +98,11 @@ describe("pedido", () => {
             const body = res.body;
 
             expect(body.id).to.be.equal(idPedido);
-            done();
+            wait(done, 1000);
          });
    });
 
-   it('Deve excluir o pedido anteriormente inserido', (done) => {
+   it('Deve excluir o pedido, o produto e o cliente anteriormente inserido', (done) => {
       chai.request(BASE_URL)
          .delete(`/pedidos/${idPedido}`)
          .end((err, res) => {
@@ -110,11 +111,26 @@ describe("pedido", () => {
             expect(body).to.have.property('message');
             expect(body.message).to.be.equal('Pedido excluído com sucesso.');
 
-            done();
+            chai.request(BASE_URL)
+               .delete(`/produtos/${idProduto}`)
+               .end((err, res) => {
+                  const body = res.body;
+
+                  expect(body.id).to.be.equal(idProduto);
+
+                  chai.request(BASE_URL)
+                     .delete(`/clientes/${idCliente}`)
+                     .end((err, res) => {
+                        const body = res.body;
+
+                        expect(body.id).to.be.equal(idCliente);
+                        wait(done, 1000);
+                     });
+               });
          });
    });
 
-   it('Deve não encontrar o pedido anteriormente excluído', (done) => {
+   it('Deve não encontrar o pedido, o produto e o cliente anteriormente removidos', (done) => {
       chai.request(BASE_URL)
          .get(`/pedidos/${idPedido}`)
          .end((err, res) => {
@@ -122,7 +138,22 @@ describe("pedido", () => {
 
             expect(body).to.be.equal(null);
 
-            done();
+            chai.request(BASE_URL)
+               .get(`/produtos?id=${idProduto}`)
+               .end((err, res) => {
+                  const body = res.body;
+
+                  expect(body).to.be.equal(null);
+
+                  chai.request(BASE_URL)
+                     .get(`/clientes?id=${idCliente}`)
+                     .end((err, res) => {
+                        const body = res.body;
+                        expect(body).to.be.equal(null);
+
+                        wait(done, 1000);
+                     });
+               });
          });
    });
 });

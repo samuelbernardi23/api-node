@@ -4,4 +4,8 @@ var expect = chai.expect;
 let chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-module.exports = { chai, expect, BASE_URL }
+function wait(done, time) {
+   setTimeout(() => done(), time)
+};
+
+module.exports = { chai, expect, BASE_URL, wait }
