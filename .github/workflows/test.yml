@@ -1,0 +1,27 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+        cache: 'npm'
+    
+    - run: pwd
+    - run: cd /home/runner/work/api/api
+    - run: ls
+    - run: cd /home/runner/work/api
+    - run: ls
+    - run: yarn
+    - run: yarn run dev
+    - run: yarn run test
