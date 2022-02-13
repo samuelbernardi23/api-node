@@ -20,5 +20,5 @@ jobs:
         cache: 'npm'
         
     -  run: yarn
-    -  run: yarn dev
-    -  run: yarn test
+    -  run: yarn run dev
+    -  run: yarn run test
