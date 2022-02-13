@@ -18,7 +18,9 @@ jobs:
         cache: 'npm'
     
     - run: pwd
+    - run: cd..
     - run: ls
+    - run: ls -la
     - run: yarn
     - run: yarn run dev
     - run: yarn run test
