@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/setup-node@v1
     
-    - run: yarn
-    - run: yarn run dev
-    - run: yarn run test
+    - run: npm i
+    - run: npm run start
+    - run: npm run test
