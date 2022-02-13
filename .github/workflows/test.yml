@@ -18,7 +18,9 @@ jobs:
       with:
         node-version: 12
         cache: 'npm'
-        
-    -  run: yarn
-    -  run: yarn run dev
-    -  run: yarn run test
+    
+    - run: pwd
+    - run: ls
+    - run: yarn
+    - run: yarn run dev
+    - run: yarn run test
