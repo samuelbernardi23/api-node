@@ -1,10 +1,10 @@
 module.exports = {
    dialect:"mysql",
-   host:"remotemysql.com",
+   host:"localhost",
    port:"3306",
-   username:"UcgYQ4Fgtj",
-   password:"6oT8oZYx88",
-   database:"UcgYQ4Fgtj",
+   username:"root",
+   password:"root",
+   database:"teste",
    define:{
       timestamps:false
    },
