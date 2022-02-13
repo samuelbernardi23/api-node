@@ -18,9 +18,10 @@ jobs:
         cache: 'npm'
     
     - run: pwd
-    - run: cd ..
+    - run: cd /home/runner/work/api/api
     - run: ls
-    - run: ls -la
+    - run: cd /home/runner/work/api
+    - run: ls
     - run: yarn
     - run: yarn run dev
     - run: yarn run test
